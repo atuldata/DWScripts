@@ -1,0 +1,23 @@
+
+CREATE TABLE fact_bde_date (
+dat varchar(10),
+temp number(3)
+)
+ORGANIZATION EXTERNAL
+(TYPE ORACLE_LOADER
+DEFAULT DIRECTORY NF26P028SRC1
+ACCESS PARAMETERS
+(
+RECORDS DELIMITED BY '\n'
+CHARACTERSET UTF8
+BADFILE NF26P028TMP:'date.csv.bad'
+LOGFILE NF26P028TMP:'date.csv.log'
+FIELDS TERMINATED BY ';'
+OPTIONALLY ENCLOSED BY '"'
+)
+LOCATION ('Temperature.csv'))
+REJECT LIMIT UNLIMITED;
+
+SELECT * FROM fact_bde_date WHERE ROWNUM=1;
+select count(*) from fact_bde_date ;
+SELECT count(*),max(dat),max(temp) FROM fact_bde_date;
